@@ -51,6 +51,12 @@ app.put('/articles/:id', async (req, res) => {
   res.json(article)
 })
 
+app.delete('articles/:id', async (req, res) => {
+  const article = await prisma.article.delete({ where: { id: +req.params.id } })
+
+  res.json(article)
+})
+
 app.listen(3000, () => {
   console.log('App working!')
 })
