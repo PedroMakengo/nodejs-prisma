@@ -22,7 +22,8 @@ model Article{
  state ArticleState
  createdAt DateTime @default(now())
  updatedAt DateTime @updatedAt
-
+ userId Int @unique
+ user User @relation(fields: [userId], references: [id])
  @@map("articles")
 }
 
@@ -34,7 +35,10 @@ model User {
   id Int @id @default(autoincrement())
   email String @unique
   profile Profile?
+  articles Article[]
 }
+
+// User may have one or multiple articles and article must by associated to a user 
 
 model Profile {
  id Int @id @default(autoincrement())
