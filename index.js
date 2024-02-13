@@ -20,12 +20,12 @@ app.post('/articles', async (req, res) => {
   res.json({ success: true })
 })
 
-app.get('/articles', async (req, res) => {
-  // 1. retrive all articles
-  const articles = await prisma.article.findMany()
+// app.get('/articles', async (req, res) => {
+//   // 1. retrive all articles
+//   const articles = await prisma.article.findMany()
 
-  res.json(articles)
-})
+//   res.json(articles)
+// })
 
 app.get('/articles/:id', async (req, res) => {
   // 2. retreive a particular article
@@ -42,26 +42,26 @@ app.get('/articles/draft', async (req, res) => {
   res.json(articles)
 })
 
-app.put('/articles/:id', async (req, res) => {
-  const article = await prisma.article.update({
-    where: { id: +req.params.id },
-    data: req.body,
-  })
+// app.put('/articles/:id', async (req, res) => {
+//   const article = await prisma.article.update({
+//     where: { id: +req.params.id },
+//     data: req.body,
+//   })
 
-  res.json(article)
-})
+//   res.json(article)
+// })
 
-app.delete('/articles/:id', async (req, res) => {
-  const article = await prisma.article.delete({ where: { id: +req.params.id } })
+// app.delete('/articles/:id', async (req, res) => {
+//   const article = await prisma.article.delete({ where: { id: +req.params.id } })
 
-  res.json(article)
-})
+//   res.json(article)
+// })
 
-app.post('/users', async (req, res) => {
-  const user = await prisma.user.create({ data: req.body })
+// app.post('/users', async (req, res) => {
+//   const user = await prisma.user.create({ data: req.body })
 
-  res.json(user)
-})
+//   res.json(user)
+// })
 
 app.post('/users/:id/profile', async (req, res) => {
   // 1. fetch the user
@@ -166,6 +166,60 @@ app.get('/users/articles', async (req, res) => {
   })
 
   res.json(users)
+})
+
+app.get('/articles', async (req, res) => {
+  const [articles, count] = await prisma.$transaction([
+    prisma.article.findMany({
+      where: { state: 'DRAFT' },
+    }),
+    prisma.article.count(),
+  ])
+
+  res.json({ articles, count })
+})
+
+app.post('/users', async (req, res) => {
+  await prisma.$transaction(async () => {
+    // let user = await prisma.user.findFirst({ where: { email: req.body.email } })
+
+    // if (user) {
+    //   throw new Error('User already exists')
+    // }
+
+    const user = await prisma.user.create({ data: { email: req.body.email } })
+
+    const profile = await prisma.profile.create({
+      data: {
+        name: req.body.name,
+        addr: req.body.addr,
+        pno: req.body.pno,
+        userId: user.id,
+      },
+    })
+
+    res.json({ success: true })
+  })
+})
+
+app.post('/users', async (req, res) => {
+  await prisma.user.create({
+    data: {
+      email: req.body.email,
+      articles: {
+        create: req.body.articles,
+      },
+    },
+  })
+
+  res.json({ success: true })
+})
+
+app.get('/users/:userId/articles', async (req, res) => {
+  const user =
+    await prisma.$queryRaw`SELECT * FROM articles INNER JOIN User On articles.userId=User.id WHERE articles.userId=${req.params.userId}`
+
+  res.json(user)
 })
 
 app.listen(3000, () => {
