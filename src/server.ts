@@ -8,7 +8,12 @@ const port = 3333
 app.use(express.json())
 app.use(router)
 app.use(
-  (error: Error, request: Request, response: Response, next: NextFunction) => {
+  (
+    error: Error,
+    request: Request,
+    response: Response,
+    next: NextFunction
+  ): any => {
     if (error instanceof Error) {
       return response.status(400).json({
         error: error.message,
