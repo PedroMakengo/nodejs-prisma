@@ -6,6 +6,7 @@ class EditCategoryService {
     if (category_id === '' || name === '' || !category_id || !name) {
       throw new Error('Invalid arguments to edit category!')
     }
+
     const productEdited = await prismaClient.category.update({
       where: {
         id: category_id,
