@@ -14,6 +14,7 @@ import { RemoveCategoryController } from './controllers/category/RemoveCategoryC
 import { CreateProductController } from './controllers/product/CreateProductController'
 import { EditProductController } from './controllers/product/EditProductController'
 import { ListProductByCategoryController } from './controllers/product/ListProductByCategoryController'
+import { ListProductController } from './controllers/product/ListProductController'
 
 const router = Router()
 
@@ -64,5 +65,7 @@ router.get(
   isAuthenticated,
   new ListProductByCategoryController().handle
 )
+
+router.get('/products', isAuthenticated, new ListProductController().handle)
 
 export { router }
