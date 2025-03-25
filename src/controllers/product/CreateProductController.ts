@@ -12,6 +12,7 @@ class CreateProductController {
       category_id,
       amount,
     }: ProductRequest = request.body
+
     const createProductService = new CreateProductService()
 
     if (!request.file) {

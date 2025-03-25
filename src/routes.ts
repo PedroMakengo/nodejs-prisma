@@ -15,6 +15,7 @@ import { CreateProductController } from './controllers/product/CreateProductCont
 import { EditProductController } from './controllers/product/EditProductController'
 import { ListProductByCategoryController } from './controllers/product/ListProductByCategoryController'
 import { ListProductController } from './controllers/product/ListProductController'
+import { RemoveProductController } from './controllers/product/RemoveProductController'
 
 const router = Router()
 
@@ -67,5 +68,11 @@ router.get(
 )
 
 router.get('/products', isAuthenticated, new ListProductController().handle)
+
+router.delete(
+  '/product/remove',
+  isAuthenticated,
+  new RemoveProductController().handle
+)
 
 export { router }

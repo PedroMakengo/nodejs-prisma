@@ -3,8 +3,8 @@ import { ListProductService } from '../../services/product/ListProductService'
 
 class ListProductController {
   async handle(request: Request, response: Response) {
-    const listProductService = new ListProductService()
-    const products = await listProductService.execute()
+    const listProductsService = new ListProductService()
+    const products = await listProductsService.execute()
 
     return response.json(products)
   }
