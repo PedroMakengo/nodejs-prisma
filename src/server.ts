@@ -1,12 +1,20 @@
 import express, { Request, Response, NextFunction } from 'express'
 import 'express-async-errors'
+import cors from 'cors'
 import { router } from './routes'
+import path from 'path'
+import swaggerUi from 'swagger-ui-express'
+import swaggerDocument from '../swagger.json'
 
 const app = express()
 const port = 3333
 
 app.use(express.json())
-app.use(router)
+app.use(cors())
+app.use('v1', router)
+// Documentação do Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument))
+app.use('/files', express.static(path.resolve(__dirname, '..', 'tmp')))
 app.use(
   (
     error: Error,
@@ -26,6 +34,12 @@ app.use(
     })
   }
 )
+
+app.get('/terms', (request: Request, response: Response) => {
+  return response.json({
+    message: 'Termos de serviço',
+  })
+})
 
 app.listen(port, () => {
   console.log(`Servidor rodando na porta ${port}`)
