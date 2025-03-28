@@ -36,7 +36,7 @@
         }
       }
     },
-    "/v1/auth": {
+    "/v1/session": {
       "post": {
         "description": "Logar e autenticar usuário",
         "requestBody": {
@@ -49,7 +49,7 @@
             }
           }
         },
-        "response": {
+        "responses": {
           "200": {
             "content": {
               "application/json": {
@@ -67,7 +67,7 @@
         "description": "Busca de um usuário pelo o seu id",
         "security": [
           {
-            "bearAuth": []
+            "bearerAuth": []
           }
         ],
         "parameters": [
@@ -111,7 +111,214 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/RequestRemoveUser"
+                  "$ref": "#/components/schemas/ResponseDeleteUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/category": {
+      "post": {
+        "description": "Criar nova categoria",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Dados de entrada necessários para a criação de uma nova categoria",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestCreateCategory"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#components/schemas/ResponseCreateCategory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/category/edit?category_id={category_id}": {
+      "put": {
+        "description": "Editar uma categoria",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "path",
+            "description": "ID da categoria",
+            "required": "true",
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "requestBody": {
+          "description": "Dados de entrada necessários para editar uma categoria",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestCreateCategory"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseCreateCategory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/category/all": {
+      "get": {
+        "description": "Listar todas as categorias",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseGetAllCategories"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/category/remove?category_id={category_id}": {
+      "delete": {
+        "description": "Remover uma categoria pelo seu ID",
+        "security": [
+          {
+            "bearerAuth": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "query",
+            "description": "ID da categoria",
+            "required": "true",
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDeleteCategory"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/vi/product": {
+      "post": {
+        "description": "Criar um novo produto",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "description": "Dados necessários para a criação de um produto",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestCreateProduct"
+              }
+            }
+          }
+        },
+
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseCreateProduct"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/product/edit": {
+      "put": {
+        "description": "Editar produto pelo ID",
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "description": "Dados de entrada para editar produto",
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestEditProduct"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseDeleteUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/product?category_id={category_id}": {
+      "get": {
+        "description": "Busca de um produto por category_id",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "category_id",
+            "in": "path",
+            "description": "ID da categoria",
+            "required": "true",
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseCreateProduct"
                 }
               }
             }
@@ -120,11 +327,34 @@
       }
     },
     "/v1/products": {
-      "post": {
-        "description": "Registro de Produto",
-        "security": [
+      "get": {
+        "description": "Buscar todos os produtos",
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseSaleProduct"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/product/remove?product_id={product_id}": {
+      "delete": {
+        "description": "Remover o produto pelo o ID",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
           {
-            "bearAuth": []
+            "name": "product_id",
+            "in": "path",
+            "description": "ID do produto",
+            "required": "true",
+            "type": "string",
+            "format": "uuid"
           }
         ],
         "responses": {
@@ -132,8 +362,34 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#components/schemas/RequestCreateProduct"
+                  "$ref": "#/components/schemas/ResponseCreateProduct"
                 }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/v1/sale/product?product_id={product_id}": {
+      "put": {
+        "description": "Efetuar a venda de um produto",
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "product_id",
+            "in": "path",
+            "description": "ID do produto",
+            "required": "true",
+            "type": "string",
+            "format": "uuid"
+          }
+        ],
+        "requestBody": {
+          "description": "Dados de entrada necessários para efetuar a venda do produto",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RequestSaleProduct"
               }
             }
           }
@@ -199,6 +455,47 @@
           }
         }
       },
+      "ResponseDeleteUser": {
+        "type": "object"
+      },
+      "RequestCreateCategory": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ResponseCreateCategory": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ResponseGetAllCategories": {
+        "type": "array",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "ResponseDeleteCategory": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
       "RequestCreateProduct": {
         "type": "object",
         "properties": {
@@ -212,17 +509,103 @@
             "type": "string"
           },
           "file": {
-            "type": "file"
+            "type": "string",
+            "format": "binary"
           },
           "category_id": {
             "type": "string"
           },
           "amount": {
+            "type": "number"
+          }
+        }
+      },
+      "ResponseCreateProduct": {
+        "type": "object",
+        "properties": {
+          "id": {
             "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "banner": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          },
+          "created_at": {
+            "type": "string"
+          },
+          "updated_at": {
+            "type": "string"
+          },
+          "category_id": {
+            "type": "string"
+          }
+        }
+      },
+      "RequestEditProduct": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "price": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "file": {
+            "type": "string",
+            "format": "binary"
+          },
+          "product_id": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          }
+        }
+      },
+      "ResponseSaleProduct": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "amount": {
+            "type": "number"
+          }
+        }
+      },
+      "RequestSaleProduct": {
+        "type": "object",
+        "properties": {
+          "amount": {
+            "type": "number"
           }
         }
       }
     },
-    "securitySchemes": {}
+    "securitySchemes": {
+      "bearerAuth": {
+        "description": "Autenticação utilizando Json Web Token",
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
   }
 }
