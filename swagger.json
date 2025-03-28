@@ -3,7 +3,7 @@
   "info": {
     "title": "API Controlo de Estoque",
     "description": "Esta API tem como objetivo facilitar o controle de estoque da sua empresa",
-    "termOfService": "http://localhost:3333/terms",
+    "termsOfService": "http://localhost:3333/terms",
     "contact": {
       "email": "devmakengo2021@gmail.com"
     },
@@ -12,6 +12,7 @@
   "paths": {
     "/v1/user": {
       "post": {
+        "tags": ["User"],
         "description": "Criar usuário",
         "requestBody": {
           "description": "Dados necessários para a criação de um novo usuário",
@@ -38,6 +39,7 @@
     },
     "/v1/session": {
       "post": {
+        "tags": ["User"],
         "description": "Logar e autenticar usuário",
         "requestBody": {
           "description": "Dados necessário para o login e autenticação do usuário",
@@ -64,6 +66,7 @@
     },
     "/v1/me?user_id={user_id}": {
       "get": {
+        "tags": ["User"],
         "description": "Busca de um usuário pelo o seu id",
         "security": [
           {
@@ -95,6 +98,7 @@
     },
     "/v1/user/remove?user_id={user_id}": {
       "delete": {
+        "tags": ["User"],
         "description": "Remover usuário",
         "parameters": [
           {
@@ -121,6 +125,7 @@
     },
     "/v1/category": {
       "post": {
+        "tags": ["Category"],
         "description": "Criar nova categoria",
         "security": [
           {
@@ -152,6 +157,7 @@
     },
     "/v1/category/edit?category_id={category_id}": {
       "put": {
+        "tags": ["Category"],
         "description": "Editar uma categoria",
         "security": [
           {
@@ -193,6 +199,7 @@
     },
     "/v1/category/all": {
       "get": {
+        "tags": ["Category"],
         "description": "Listar todas as categorias",
         "security": [
           {
@@ -215,6 +222,7 @@
     },
     "/v1/category/remove?category_id={category_id}": {
       "delete": {
+        "tags": ["Category"],
         "description": "Remover uma categoria pelo seu ID",
         "security": [
           {
@@ -244,8 +252,9 @@
         }
       }
     },
-    "/vi/product": {
+    "/v1/product": {
       "post": {
+        "tags": ["Product"],
         "description": "Criar um novo produto",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
@@ -274,6 +283,7 @@
     },
     "/v1/product/edit": {
       "put": {
+        "tags": ["Product"],
         "description": "Editar produto pelo ID",
         "security": [{ "bearerAuth": [] }],
         "requestBody": {
@@ -301,6 +311,7 @@
     },
     "/v1/product?category_id={category_id}": {
       "get": {
+        "tags": ["Product"],
         "description": "Busca de um produto por category_id",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
@@ -328,6 +339,7 @@
     },
     "/v1/products": {
       "get": {
+        "tags": ["Product"],
         "description": "Buscar todos os produtos",
         "security": [{ "bearerAuth": [] }],
         "responses": {
@@ -345,6 +357,7 @@
     },
     "/v1/product/remove?product_id={product_id}": {
       "delete": {
+        "tags": ["Product"],
         "description": "Remover o produto pelo o ID",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
@@ -372,6 +385,7 @@
     },
     "/v1/sale/product?product_id={product_id}": {
       "put": {
+        "tags": ["Product"],
         "description": "Efetuar a venda de um produto",
         "security": [{ "bearerAuth": [] }],
         "parameters": [
