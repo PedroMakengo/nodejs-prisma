@@ -37,6 +37,23 @@
         }
       }
     },
+    "/v1/user": {
+      "get": {
+        "tags": ["User"],
+        "description": "Buscar lista de usuários",
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ResponseCreateUser"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/v1/session": {
       "post": {
         "tags": ["User"],

@@ -17,6 +17,7 @@ import { ListProductByCategoryController } from './controllers/product/ListProdu
 import { ListProductController } from './controllers/product/ListProductController'
 import { RemoveProductController } from './controllers/product/RemoveProductController'
 import { SaleProductController } from './controllers/sale/SaleProductController'
+import { ListUserController } from './controllers/user/ListUsersController'
 
 const router = Router()
 
@@ -26,6 +27,7 @@ const upload = multer(uploadConfig.upload('./tmp'))
 // User Routes
 router.post('/user', new CreateUserController().handle)
 router.post('/session', new AuthController().handle)
+router.get('/user', new ListUserController().handle)
 router.get('/me', isAuthenticated, new DetailUserController().handle)
 router.delete('/user/remove', new RemoveUserController().handle)
 
