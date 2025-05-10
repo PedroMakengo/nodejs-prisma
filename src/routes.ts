@@ -27,7 +27,7 @@ const upload = multer(uploadConfig.upload('./tmp'))
 // User Routes
 router.post('/user', new CreateUserController().handle)
 router.post('/session', new AuthController().handle)
-router.get('/user', new ListUserController().handle)
+router.get('/users', new ListUserController().handle)
 router.get('/me', isAuthenticated, new DetailUserController().handle)
 router.delete('/user/remove', new RemoveUserController().handle)
 

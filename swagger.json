@@ -37,7 +37,7 @@
         }
       }
     },
-    "/v1/user": {
+    "/v1/users": {
       "get": {
         "tags": ["User"],
         "description": "Buscar lista de usuários",
